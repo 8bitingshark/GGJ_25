@@ -82,6 +82,7 @@ namespace Player
         private void FixedUpdate()
         {
             Move();
+            AddFallGravity();
             //ClampVelocity();
         }
 
@@ -118,7 +119,10 @@ namespace Player
         private void PerformJump()
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpForce);
-            
+        }
+
+        private void AddFallGravity()
+        {
             // apply fall gravity
             if (_rb.linearVelocity.y < 0.0f)
             {
