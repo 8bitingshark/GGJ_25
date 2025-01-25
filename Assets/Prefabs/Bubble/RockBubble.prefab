@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 261379597520216080, guid: 33966b072a7a43f46b3bf5251c5154cf, type: 3}
+      propertyPath: m_MaxForce
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 654876117854413971, guid: 33966b072a7a43f46b3bf5251c5154cf, type: 3}
       propertyPath: m_Name
       value: RockBubble

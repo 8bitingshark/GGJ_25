@@ -15,9 +15,9 @@ MonoBehaviour:
   movementAcceleration: 3
   movementMaxSpeedX: 20
   movementMaxSpeedY: 20
-  jumpForce: 7
+  jumpForce: 10
   coyoteTime: 0.2
-  airControlMultiplier: 0.4
-  fallGravityMultiplier: 2.7
+  airControlMultiplier: 2.7
+  fallGravityMultiplier: 0.5
   lowJumpMultiplier: 0
   groundCheckDistance: 0.2

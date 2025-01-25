@@ -16,9 +16,16 @@ public class BubbleMovent : MonoBehaviour
     [SerializeField] private float _relativeJointForce = 6.3f;
     [SerializeField] private float _secondsToWaitWhenPLayerEnter = 0.25f;
     [SerializeField] private GameObject relativeJoint2d;
+    [SerializeField] private float _pushForce = 1.0f;
     
     [SerializeField] private LayerMask whatIsPlayer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public Rigidbody2D getRigidBody2D()
+    {
+        return rb;
+    }
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -39,7 +46,8 @@ public class BubbleMovent : MonoBehaviour
     void FixedUpdate()
     {
         Move();
-        SetJointPos();
+        SetJointPos(); 
+        
     }
 
     void SetJointPos()
@@ -51,7 +59,10 @@ public class BubbleMovent : MonoBehaviour
     {
         if(rb.linearVelocityY < _maxSpeed)
             rb.AddForce(new Vector2(0, _forceAmount), ForceMode2D.Impulse);
-        
+        if (rb.linearVelocity.magnitude > _maxSpeed)
+        {
+            rb.AddForce(-(rb.linearVelocity * _pushForce), ForceMode2D.Impulse);
+        }
     }
 
     IEnumerator timerContact()
@@ -62,14 +73,23 @@ public class BubbleMovent : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        
         if ((whatIsPlayer.value & (1 << other.gameObject.layer)) > 0)
         {
-            //aggiungi forza all'insù
-            relativeJoint2d.GetComponent<RelativeJoint2D>().enabled = true;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
-            // rendere statica la bubble
-            StartCoroutine(timerContact());
+            
+            if (gameObject.GetComponent<EdgeCollider2D>().transform.position.y+0.1f < other.gameObject.transform.position.y-0.1f)
+            {
+                relativeJoint2d.GetComponent<RelativeJoint2D>().enabled = true;
+                rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                // rendere statica la bubble
+                StartCoroutine(timerContact());
+            }else
+            {
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                //rb.AddForce(other.gameObject.GetComponent<Rigidbody2D>().linearVelocity * _pushForce, ForceMode2D.Impulse);
+                Debug.Log(other.gameObject.GetComponent<Rigidbody2D>().linearVelocity);
+            }
+            
         }
         else
         {
@@ -84,9 +104,18 @@ public class BubbleMovent : MonoBehaviour
         {
             StopCoroutine(timerContact());
             relativeJoint2d.GetComponent<RelativeJoint2D>().enabled = false;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
-            relativeJoint2d.GetComponent<RelativeJoint2D>().maxForce = 40;
-            rb.linearVelocityY = -0.1f;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            if (gameObject.GetComponent<EdgeCollider2D>().transform.position.y < other.gameObject.transform.position.y)
+            {
+                rb.linearVelocityY = -0.1f;
+                rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+                relativeJoint2d.GetComponent<RelativeJoint2D>().maxForce = 40;
+            }
+            else
+            {
+                //rb.linearVelocityY = 0.2f;
+                rb.AddForce(other.gameObject.GetComponent<Rigidbody2D>().linearVelocity/2, ForceMode2D.Impulse);
+            }
         }
     }
 }
