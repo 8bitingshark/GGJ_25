@@ -14,10 +14,9 @@ public class BubbleMovent : MonoBehaviour
     [SerializeField] private float _maxSpeed = 1.0f;
     [SerializeField] private float _forceAmount = 0.01f;
     [SerializeField] private float _relativeJointForce = 6.3f;
-    [SerializeField] private float _forceAmountWithPlayer = 5f;
     [SerializeField] private float _secondsToWaitWhenPLayerEnter = 0.25f;
     [SerializeField] private GameObject relativeJoint2d;
-
+    
     [SerializeField] private LayerMask whatIsPlayer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -88,7 +87,6 @@ public class BubbleMovent : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezePositionX;
             relativeJoint2d.GetComponent<RelativeJoint2D>().maxForce = 40;
             rb.linearVelocityY = -0.1f;
-            _forceAmount = 0.25f;
         }
     }
 }
