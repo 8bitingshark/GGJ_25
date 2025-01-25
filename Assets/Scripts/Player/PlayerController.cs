@@ -103,7 +103,7 @@ namespace Player
             AddFallGravity();
             if(_canChangeJumpForce) ApplyJumpForce();
             ClampVelocity();
-            Debug.Log(_currentJumpForce);
+            //Debug.Log(_currentJumpForce);
         }
 
         //*********************************Movement*********************************

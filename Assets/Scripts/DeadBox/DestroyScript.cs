@@ -1,4 +1,5 @@
 using Scoring;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DestroyScript : MonoBehaviour
@@ -26,18 +27,29 @@ public class DestroyScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
+        Debug.Log("helo");
         if ((whatIsBubble.value & (1 << other.gameObject.layer)) > 0)        
         {
-            Debug.Log("Stato della bolla: " + other.gameObject.GetComponent<ScoringBubble>().getState());
+            int value = 0;
             // Incrementa la variabile
+            if (other.gameObject.CompareTag("goldenBubble"))
+            {
+                value = 3;
+            }
+            else
+            {
+                value = 1;
+            }
             if (other.gameObject.GetComponent<ScoringBubble>().getState() == ScoringBubble.State.Player1)
             {
-                scoreP1++;
+                Debug.Log("value p1 = "+value.ToString());
+                scoreP1 += value;
                 whatIsScoreP1.GetComponent<ScoringScript>().UpdatePoints(scoreP1);
             }
             else if (other.gameObject.GetComponent<ScoringBubble>().getState() == ScoringBubble.State.Player2)
             {
-                scoreP2++;
+                Debug.Log("value p2 = "+value.ToString());
+                scoreP2 += value;
                 whatIsScoreP2.GetComponent<ScoringScript>().UpdatePoints(scoreP2);
             }
             else

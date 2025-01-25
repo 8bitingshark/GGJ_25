@@ -7,6 +7,7 @@ public class ScoringBubble : MonoBehaviour
     [SerializeField] private LayerMask whatIsPlayer2;
     [SerializeField] private Color colorPlayer1;
     [SerializeField] private Color colorPlayer2;
+    [SerializeField] private Color neutralColor;
     
 
     [SerializeField] private State state = State.None;
@@ -48,6 +49,11 @@ public class ScoringBubble : MonoBehaviour
             case State.Player2:
                 state = State.Player2;
                 gameObject.GetComponent<SpriteRenderer>().color = colorPlayer2;
+                break;
+            
+            case State.None:
+                state = State.None;
+                gameObject.GetComponent<SpriteRenderer>().color = neutralColor;
                 break;
 
         }

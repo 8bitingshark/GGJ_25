@@ -21,9 +21,9 @@ namespace Scoring
         public void UpdatePoints(int scoreNow)
         {
             uiText.text = scoreNow.ToString();
-            if (scoreNow == scoreWinning)
+            if (scoreNow >= scoreWinning)
             {
-                winningText.GetComponent<GameManager>().EndGame(giocatore);
+                winningText.GetComponent<WinningScreen>().EndGame(giocatore);
             }
         }
     }

@@ -241,6 +241,7 @@ MonoBehaviour:
     m_Bits: 512
   colorPlayer1: {r: 1, g: 0, b: 0, a: 1}
   colorPlayer2: {r: 0, g: 0.16663885, b: 1, a: 1}
+  neutralColor: {r: 1, g: 1, b: 1, a: 1}
   state: 2
 --- !u!68 &8145832777812730348
 EdgeCollider2D:
@@ -249,7 +250,7 @@ EdgeCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6035071049425936876}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
