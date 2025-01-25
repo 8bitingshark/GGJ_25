@@ -88,7 +88,7 @@ MonoBehaviour:
   _relativeJointForce: 6.3
   _secondsToWaitWhenPLayerEnter: 0.5
   relativeJoint2d: {fileID: 8403958452423922772}
-  _pushForce: 0.001
+  _pushForce: 0.0025
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 768
@@ -240,6 +240,7 @@ MonoBehaviour:
     m_Bits: 512
   colorPlayer1: {r: 1, g: 0, b: 0, a: 1}
   colorPlayer2: {r: 0, g: 0.16663885, b: 1, a: 1}
+  state: 2
 --- !u!68 &8145832777812730348
 EdgeCollider2D:
   m_ObjectHideFlags: 0

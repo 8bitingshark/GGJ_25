@@ -8,7 +8,7 @@ public class ScoringBubble : MonoBehaviour
     [SerializeField] private Color colorPlayer1;
     [SerializeField] private Color colorPlayer2;
 
-    private State state = State.None;
+    [SerializeField] private State state = State.None;
 
     public enum State
     {
@@ -33,9 +33,9 @@ public class ScoringBubble : MonoBehaviour
         }
     }
 
-    void SetState(State state)
+    void SetState(State stateTmp)
     {
-        switch (state)
+        switch (stateTmp)
         {
             case State.Player1:
                 state = State.Player1;
