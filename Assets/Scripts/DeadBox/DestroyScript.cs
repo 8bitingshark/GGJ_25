@@ -44,10 +44,8 @@ public class DestroyScript : MonoBehaviour
             {
                 missedBubbles++;
             }
+            // Distruggi l'oggetto
+            Destroy(other.gameObject);
         }
-        
-        // Distruggi l'oggetto
-        Destroy(other.gameObject);
-
     }
 }

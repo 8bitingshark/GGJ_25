@@ -17,6 +17,7 @@ public class BubbleMovent : MonoBehaviour
     [SerializeField] private float _secondsToWaitWhenPLayerEnter = 0.25f;
     [SerializeField] private GameObject relativeJoint2d;
     [SerializeField] private float _pushForce = 1.0f;
+    [SerializeField] private float _resistanceForce = 12f;
     
     [SerializeField] private LayerMask whatIsPlayer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -68,7 +69,7 @@ public class BubbleMovent : MonoBehaviour
     IEnumerator timerContact()
     {
         yield return new WaitForSeconds(_secondsToWaitWhenPLayerEnter);
-        relativeJoint2d.GetComponent<RelativeJoint2D>().maxForce = 6.3f;//valore fisso per far cadere
+        relativeJoint2d.GetComponent<RelativeJoint2D>().maxForce = _resistanceForce;//valore fisso per far cadere
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -93,7 +94,7 @@ public class BubbleMovent : MonoBehaviour
         }
         else
         {
-            Debug.Log(other.gameObject.name + " non è in uno dei layer specificati.");
+            //Debug.Log(other.gameObject.name + " non è in uno dei layer specificati.");
         }
     }
 

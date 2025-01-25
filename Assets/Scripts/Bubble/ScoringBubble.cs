@@ -7,6 +7,7 @@ public class ScoringBubble : MonoBehaviour
     [SerializeField] private LayerMask whatIsPlayer2;
     [SerializeField] private Color colorPlayer1;
     [SerializeField] private Color colorPlayer2;
+    
 
     [SerializeField] private State state = State.None;
 
@@ -32,8 +33,10 @@ public class ScoringBubble : MonoBehaviour
             SetState(State.Player2);
         }
     }
+    
+    
 
-    void SetState(State stateTmp)
+    public void SetState(State stateTmp)
     {
         switch (stateTmp)
         {
