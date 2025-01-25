@@ -24,20 +24,16 @@ namespace Player
        
         private void OnEnable()
         {
-            if (_currentPlayerActionMap != null)
-            {
-                _currentPlayerActionMap.Enable();
-                SubscribeToEvents(_currentPlayerActionMap);
-            }
+            if (_currentPlayerActionMap == null) return;
+            _currentPlayerActionMap.Enable();
+            SubscribeToEvents(_currentPlayerActionMap);
         }
 
         private void OnDisable()
         {
-            if (_currentPlayerActionMap != null)
-            {
-                UnsubscribeFromEvents(_currentPlayerActionMap);
-                _currentPlayerActionMap.Disable();
-            }
+            if (_currentPlayerActionMap == null) return;
+            UnsubscribeFromEvents(_currentPlayerActionMap);
+            _currentPlayerActionMap.Disable();
         }
 
         private void OnDestroy()
@@ -48,7 +44,7 @@ namespace Player
             }
         }
         
-        //*********************************Helper Methods*********************************
+        //*********************************Initialization*********************************
 
         public void InitializePlayerInputs(int playerNumber)
         {
@@ -121,6 +117,8 @@ namespace Player
                 suckAction.performed -= Suck_performed;
             }
         }
+        
+        //*********************************Input Events*********************************
         
         public float GetMovementInput()
         {
