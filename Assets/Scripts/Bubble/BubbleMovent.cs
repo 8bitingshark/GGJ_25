@@ -15,7 +15,8 @@ public class BubbleMovent : MonoBehaviour
     [SerializeField] private float _forceAmount = 0.01f;
     [SerializeField] private float _relativeJointForce = 6.3f;
     [SerializeField] private float _forceAmountWithPlayer = 5f;
-    [SerializeField] private float _secondsToWaitWhenPLayerEnter = 0.01f;
+    [SerializeField] private float _secondsToWaitWhenPLayerEnter = 0.25f;
+    [SerializeField] private GameObject relativeJoint2d;
 
     [SerializeField] private LayerMask whatIsPlayer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -39,10 +40,14 @@ public class BubbleMovent : MonoBehaviour
     void FixedUpdate()
     {
         Move();
-        Debug.Log(rb.linearVelocityY);
+        SetJointPos();
     }
-    
-    
+
+    void SetJointPos()
+    {
+        if(!relativeJoint2d.GetComponent<RelativeJoint2D>().enabled)
+            relativeJoint2d.transform.position = transform.position;
+    }
     void Move()
     {
         if(rb.linearVelocityY < _maxSpeed)
@@ -53,7 +58,7 @@ public class BubbleMovent : MonoBehaviour
     IEnumerator timerContact()
     {
         yield return new WaitForSeconds(_secondsToWaitWhenPLayerEnter);
-        gameObject.GetComponent<RelativeJoint2D>().maxForce = 6.3f;//valore fisso per far cadere
+        relativeJoint2d.GetComponent<RelativeJoint2D>().maxForce = 6.3f;//valore fisso per far cadere
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -62,7 +67,7 @@ public class BubbleMovent : MonoBehaviour
         if ((whatIsPlayer.value & (1 << other.gameObject.layer)) > 0)
         {
             //aggiungi forza all'insù
-            gameObject.GetComponent<RelativeJoint2D>().enabled = true;
+            relativeJoint2d.GetComponent<RelativeJoint2D>().enabled = true;
             rb.constraints = RigidbodyConstraints2D.FreezePositionX;
             // rendere statica la bubble
             StartCoroutine(timerContact());
@@ -76,9 +81,14 @@ public class BubbleMovent : MonoBehaviour
     private void OnCollisionExit2D(Collision2D other)
     {
         //aggiungi effetto che va giù la bolla di pochi secondi come se la stessimo leggermente spingendo giù
-        StopCoroutine(timerContact());
-        gameObject.GetComponent<RelativeJoint2D>().enabled = false;
-        rb.constraints = RigidbodyConstraints2D.FreezePositionX;
-        gameObject.GetComponent<RelativeJoint2D>().maxForce = 40;
+        if ((whatIsPlayer.value & (1 << other.gameObject.layer)) > 0)
+        {
+            StopCoroutine(timerContact());
+            relativeJoint2d.GetComponent<RelativeJoint2D>().enabled = false;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+            relativeJoint2d.GetComponent<RelativeJoint2D>().maxForce = 40;
+            rb.linearVelocityY = -0.1f;
+            _forceAmount = 0.25f;
+        }
     }
 }
