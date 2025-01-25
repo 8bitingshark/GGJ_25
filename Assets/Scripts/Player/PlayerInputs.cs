@@ -10,6 +10,7 @@ namespace Player
         private InputActionMap _currentPlayerActionMap;
         
         public event EventHandler OnJumpAction;
+        public event EventHandler OnJumpRelease;
         public event EventHandler OnKickAction;
         public event EventHandler OnSuckAction;
         
@@ -18,22 +19,6 @@ namespace Player
         {
             _playerInputActions = new InputActions();
         }
-       
-        /*
-        private void OnEnable()
-        {
-            if (_currentPlayerActionMap == null) return;
-            _currentPlayerActionMap.Enable();
-            SubscribeToEvents(_currentPlayerActionMap);
-        }
-
-        private void OnDisable()
-        {
-            if (_currentPlayerActionMap == null) return;
-            UnsubscribeFromEvents(_currentPlayerActionMap);
-            _currentPlayerActionMap.Disable();
-        }
-        */
 
         private void OnDestroy()
         {
@@ -71,6 +56,7 @@ namespace Player
             if (jumpAction != null)
             {
                 jumpAction.performed += Jump_performed;
+                jumpAction.canceled += Jump_canceled;
                 Debug.Log("Jump action found!");
             }
             else
@@ -98,6 +84,7 @@ namespace Player
             if (jumpAction != null)
             {
                 jumpAction.performed -= Jump_performed;
+                jumpAction.canceled -= Jump_canceled;
             }
 
             var kickAction = actionMap.FindAction("Kick");
@@ -122,8 +109,12 @@ namespace Player
 
         private void Jump_performed(InputAction.CallbackContext context)
         {
-            Debug.Log("OnJumpAction");
             OnJumpAction?.Invoke(this, EventArgs.Empty);
+        }
+        
+        private void Jump_canceled(InputAction.CallbackContext context)
+        {
+            OnJumpRelease?.Invoke(this, EventArgs.Empty);
         }
 
         private void Kick_performed(InputAction.CallbackContext context)

@@ -23,6 +23,14 @@ namespace Player
         private float _fallGravityMultiplier;
         private bool _isGrounded;
         [SerializeField] private LayerMask groundLayer;
+        
+        private bool _canJumpAddAcceleration;
+        private bool _canChangeJumpForce;
+        private float _currentJumpPressTime;
+        private float _maxJumpHoldTime;
+        private float _minJumpForce;
+        private float _maxJumpForce;
+        private float _currentJumpForce;
         [Header("Terrain check")]
         private float _groundCheckDistance;
         
@@ -49,6 +57,7 @@ namespace Player
             playerInputs.InitializePlayerInputs(playerNumber);
             
             playerInputs.OnJumpAction += JumpActionReceived;
+            playerInputs.OnJumpRelease += JumpActionReleased;
             playerInputs.OnKickAction += KickActionReceived;
             playerInputs.OnSuckAction += SuckActionReceived;
             
@@ -68,6 +77,14 @@ namespace Player
             _fallGravityMultiplier = playerDataConfig.fallGravityMultiplier;
             _jumpForce = playerDataConfig.jumpForce;
             _groundCheckDistance = playerDataConfig.groundCheckDistance;
+            
+            _canJumpAddAcceleration = false;
+            _currentJumpPressTime = 0.0f;
+            _currentJumpForce = _minJumpForce;
+            _canChangeJumpForce = playerDataConfig.canChangeJumpForce;
+            _maxJumpHoldTime = playerDataConfig.maxJumpHoldTime;
+            _minJumpForce = playerDataConfig.minJumpForce;
+            _maxJumpForce = playerDataConfig.maxJumpForce;
         }
         
 
@@ -77,13 +94,16 @@ namespace Player
         {
             CheckGrounded();
             UpdateCoyoteTime();
+            if(_canChangeJumpForce) UpdateJumpHold();
         }
 
         private void FixedUpdate()
         {
             Move();
             AddFallGravity();
-            //ClampVelocity();
+            if(_canChangeJumpForce) ApplyJumpForce();
+            ClampVelocity();
+            Debug.Log(_currentJumpForce);
         }
 
         //*********************************Movement*********************************
@@ -109,16 +129,51 @@ namespace Player
         
         private void JumpActionReceived(object sender, EventArgs e)
         {
-            Debug.Log("Jump action received");
-            if (_currentCoyoteTime > 0.0f)
+            if (_canChangeJumpForce)
             {
-                PerformJump();
+                if (_currentCoyoteTime > 0.0f && !_canJumpAddAcceleration)
+                {
+                    _canJumpAddAcceleration = true;
+                    _currentJumpPressTime = 0.0f;
+                }
+            }
+            else if (_currentCoyoteTime > 0.0f)
+            {
+                PerformJump(_jumpForce);
+            }
+        }
+        
+        private void JumpActionReleased(object sender, EventArgs e)
+        {
+            Debug.Log("JumpActionReleased");
+            _canJumpAddAcceleration = false;
+        }
+        
+        private void UpdateJumpHold()
+        {
+            if (_canJumpAddAcceleration && _currentJumpPressTime < _maxJumpHoldTime)
+            {
+                _currentJumpPressTime += Time.deltaTime;
+                _currentJumpForce = Mathf.Lerp(_minJumpForce, _maxJumpForce, _currentJumpPressTime / _maxJumpHoldTime);
+            }
+            else
+            {
+                _currentJumpForce = 0; // No adding force
+            }
+        }
+        
+        private void ApplyJumpForce()
+        {
+            if (_currentJumpForce > 0)
+            {
+                _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _currentJumpForce);
+                //_rb.linearVelocity += Vector2.up * (_currentJumpForce * Time.fixedDeltaTime);
             }
         }
 
-        private void PerformJump()
+        private void PerformJump(float jumpStrength)
         {
-            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpForce);
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpStrength);
         }
 
         private void AddFallGravity()

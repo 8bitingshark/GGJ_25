@@ -703,6 +703,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 8202158750737157863, guid: 470eeb669309ee84d88f1db1b26a8823, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -727,6 +731,14 @@ PrefabInstance:
     - target: {fileID: 4231339692039236559, guid: ef93abbb1c491204d80cfe7d826d8b96, type: 3}
       propertyPath: m_Name
       value: PlayerPositionResetter
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973853878265136718, guid: ef93abbb1c491204d80cfe7d826d8b96, type: 3}
+      propertyPath: m_Size.x
+      value: 20.984407
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973853878265136718, guid: ef93abbb1c491204d80cfe7d826d8b96, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.027890205
       objectReference: {fileID: 0}
     - target: {fileID: 8977719122374877529, guid: ef93abbb1c491204d80cfe7d826d8b96, type: 3}
       propertyPath: m_LocalPosition.x

@@ -14,7 +14,10 @@ namespace Player
         public float coyoteTime;
         public float airControlMultiplier;
         public float fallGravityMultiplier;
-        public float lowJumpMultiplier;
         public float groundCheckDistance;
+        public float maxJumpHoldTime;
+        public float minJumpForce;
+        public float maxJumpForce;
+        public bool canChangeJumpForce;
     }
 }
