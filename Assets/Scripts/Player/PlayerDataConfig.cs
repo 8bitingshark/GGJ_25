@@ -7,12 +7,14 @@ namespace Player
     {
         // movement params
         public float movementAcceleration;
-        public float movementMaxSpeed;
+        public float movementMaxSpeedX;
+        public float movementMaxSpeedY;
         // jump params
         public float jumpForce;
         public float coyoteTime;
         public float airControlMultiplier;
         public float fallGravityMultiplier;
         public float lowJumpMultiplier;
+        public float groundCheckDistance;
     }
 }

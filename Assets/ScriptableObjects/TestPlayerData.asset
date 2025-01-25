@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d34d21c2cbf5acb40aa96316f6e7ad0f, type: 3}
+  m_Name: TestPlayerData
+  m_EditorClassIdentifier: 
+  movementAcceleration: 3
+  movementMaxSpeedX: 20
+  movementMaxSpeedY: 20
+  jumpForce: 7
+  coyoteTime: 0.2
+  airControlMultiplier: 0.4
+  fallGravityMultiplier: 2.7
+  lowJumpMultiplier: 0
+  groundCheckDistance: 0.2

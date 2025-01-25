@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using System.Collections;
 
 namespace Player
 {
@@ -10,19 +9,24 @@ namespace Player
         [SerializeField] private PlayerDataConfig playerDataConfig; // it collects data parameters for the player
         [SerializeField] private int playerNumber; // then we can change with enum or other suitable stuff
         
-        private Rigidbody _rb;
-        //movement params
-        private float _inputHorizontalDirection;
+        private Rigidbody2D _rb;
+        [Header("Movement Params")]
+        private Vector2 _inputHorizontalDirection;
         private float _movementControlMultiplier;
         private float _horizontalVelocity;
         private float _movementAcceleration;
-        private float _movementMaxSpeed;
-        //jump params
+        private float _movementMaxSpeedX;
+        private float _movementMaxSpeedY;
+        [Header("Jump params")]
         private float _jumpForce;
         private float _currentAirControlMultiplier;
         private float _fallGravityMultiplier;
         private bool _isGrounded;
+        [SerializeField] private LayerMask groundLayer;
+        [Header("Terrain check")]
+        private float _groundCheckDistance;
         
+        [Header("Kick params")]
         private bool _isAbleToKick;
         
         // Coyote Time: add some time tolerance to allow the player to jump immediately after he's left the terrain
@@ -36,7 +40,14 @@ namespace Player
         private void Start()
         {
             playerInputs = GetComponent<PlayerInputs>();
+            _rb = GetComponent<Rigidbody2D>();
+            
+            if (playerInputs == null)
+            {
+                Debug.LogError("PlayerInput Component not found!");
+            }
             playerInputs.InitializePlayerInputs(playerNumber);
+            
             playerInputs.OnJumpAction += JumpActionReceived;
             playerInputs.OnKickAction += KickActionReceived;
             playerInputs.OnSuckAction += SuckActionReceived;
@@ -51,22 +62,27 @@ namespace Player
             _currentCoyoteTime = _coyoteTime;
             _movementControlMultiplier = 1.0f;
             _currentAirControlMultiplier = playerDataConfig.airControlMultiplier;
-            _movementMaxSpeed = playerDataConfig.movementMaxSpeed;
+            _movementMaxSpeedX = playerDataConfig.movementMaxSpeedX;
+            _movementMaxSpeedY = playerDataConfig.movementMaxSpeedY;
             _movementAcceleration = playerDataConfig.movementAcceleration;
             _fallGravityMultiplier = playerDataConfig.fallGravityMultiplier;
             _jumpForce = playerDataConfig.jumpForce;
+            _groundCheckDistance = playerDataConfig.groundCheckDistance;
         }
+        
 
         //*********************************Updating*********************************
         
         private void Update()
         {
+            CheckGrounded();
             UpdateCoyoteTime();
         }
 
         private void FixedUpdate()
         {
             Move();
+            //ClampVelocity();
         }
 
         //*********************************Movement*********************************
@@ -77,13 +93,22 @@ namespace Player
             //apply forces and acceleration?
             
             _movementControlMultiplier = _isGrounded ? 1.0f : playerDataConfig.airControlMultiplier;
-            _horizontalVelocity = _inputHorizontalDirection * _movementAcceleration * _movementControlMultiplier;
+            _horizontalVelocity = _inputHorizontalDirection.x * _movementAcceleration * _movementControlMultiplier;
+            _rb.linearVelocity = new Vector2(_horizontalVelocity, _rb.linearVelocity.y); //possibility to accelerate gradually?
+        }
+
+        private void ClampVelocity()
+        {
+            float clampedX = Mathf.Clamp(_rb.linearVelocity.x, -_movementMaxSpeedX, _movementMaxSpeedX);
+            float clampedY = Mathf.Clamp(_rb.linearVelocity.y, -_movementMaxSpeedY, _movementMaxSpeedY);
+            _rb.linearVelocity = new Vector2(clampedX, clampedY);
         }
 
         //*********************************Jump Management*********************************
         
         private void JumpActionReceived(object sender, EventArgs e)
         {
+            Debug.Log("Jump action received");
             if (_currentCoyoteTime > 0.0f)
             {
                 PerformJump();
@@ -92,13 +117,27 @@ namespace Player
 
         private void PerformJump()
         {
-            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, _jumpForce, _rb.linearVelocity.z);
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpForce);
             
             // apply fall gravity
             if (_rb.linearVelocity.y < 0.0f)
             {
-                _rb.linearVelocity += Vector3.up * Physics2D.gravity.y * _fallGravityMultiplier * Time.deltaTime;
+                _rb.linearVelocity += Vector2.up * Physics2D.gravity.y * _fallGravityMultiplier * Time.deltaTime;
             }
+        }
+
+        private void CheckGrounded()
+        {
+            //_isGrounded = Physics.CheckSphere(transform.position, groundCheckDistance);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.down, _groundCheckDistance, groundLayer);
+            _isGrounded = hit.collider != null;
+        }
+        
+        //for debug
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, transform.position + Vector3.down * _groundCheckDistance);
         }
 
         private void UpdateCoyoteTime()
@@ -114,11 +153,12 @@ namespace Player
         }
         
         // not sure for the interruption
+        /*
         private IEnumerator CoyoteTimeCoroutine()
         {
             yield return new WaitForSeconds(_coyoteTime);
             
-        }
+        } */
         
         //*********************************Actions*********************************
         

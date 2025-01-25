@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
 using UnityEngine.InputSystem;
-using UnityEngine.Video;
 
 namespace Player
 {
@@ -14,14 +13,13 @@ namespace Player
         public event EventHandler OnKickAction;
         public event EventHandler OnSuckAction;
         
-        private float _movementInput;
-        
         //*********************************Setting Stuff*********************************
         private void Awake()
         {
             _playerInputActions = new InputActions();
         }
        
+        /*
         private void OnEnable()
         {
             if (_currentPlayerActionMap == null) return;
@@ -35,6 +33,7 @@ namespace Player
             UnsubscribeFromEvents(_currentPlayerActionMap);
             _currentPlayerActionMap.Disable();
         }
+        */
 
         private void OnDestroy()
         {
@@ -43,7 +42,7 @@ namespace Player
                 UnsubscribeFromEvents(_currentPlayerActionMap);
             }
         }
-        
+
         //*********************************Initialization*********************************
 
         public void InitializePlayerInputs(int playerNumber)
@@ -58,6 +57,8 @@ namespace Player
                 return;
             }
 
+            Debug.Log($"Action map '{actionMapName}' initialized successfully.");
+
             // Enable the action map, so Player1 or Player2
             _currentPlayerActionMap.Enable();
             // Subscribe to the input events
@@ -66,16 +67,15 @@ namespace Player
         
         private void SubscribeToEvents(InputActionMap actionMap)
         {
-            var moveAction = actionMap.FindAction("Move");
-            if (moveAction != null)
-            {
-                moveAction.performed += OnMovePerformed;
-            }
-
             var jumpAction = actionMap.FindAction("Jump");
             if (jumpAction != null)
             {
                 jumpAction.performed += Jump_performed;
+                Debug.Log("Jump action found!");
+            }
+            else
+            {
+                Debug.LogError("Jump action not found!");
             }
 
             var kickAction = actionMap.FindAction("Kick");
@@ -93,11 +93,6 @@ namespace Player
 
         private void UnsubscribeFromEvents(InputActionMap actionMap)
         {
-            var moveAction = actionMap.FindAction("Move");
-            if (moveAction != null)
-            {
-                moveAction.performed -= OnMovePerformed;
-            }
 
             var jumpAction = actionMap.FindAction("Jump");
             if (jumpAction != null)
@@ -120,18 +115,14 @@ namespace Player
         
         //*********************************Input Events*********************************
         
-        public float GetMovementInput()
+        public Vector2 GetMovementInput()
         {
-            return _movementInput;
-        }
-
-        private void OnMovePerformed(InputAction.CallbackContext context)
-        {
-            _movementInput = context.ReadValue<float>();
+            return _currentPlayerActionMap.FindAction("Move").ReadValue<Vector2>();
         }
 
         private void Jump_performed(InputAction.CallbackContext context)
         {
+            Debug.Log("OnJumpAction");
             OnJumpAction?.Invoke(this, EventArgs.Empty);
         }
 
