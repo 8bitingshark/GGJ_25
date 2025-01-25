@@ -53,7 +53,7 @@ MonoBehaviour:
   playerNumber: 0
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
 --- !u!114 &4541625932557279687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,7 +92,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &5446526780250487507
 SpriteRenderer:
   m_ObjectHideFlags: 0
