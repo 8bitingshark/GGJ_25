@@ -126,7 +126,7 @@ namespace Player
             // apply fall gravity
             if (_rb.linearVelocity.y < 0.0f)
             {
-                _rb.linearVelocity += Vector2.up * Physics2D.gravity.y * _fallGravityMultiplier * Time.deltaTime;
+                _rb.linearVelocity += Vector2.up * (Physics2D.gravity.y * _fallGravityMultiplier * Time.deltaTime);
             }
         }
 
