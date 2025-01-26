@@ -99,9 +99,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExplosiveBubble
       objectReference: {fileID: 0}
+    - target: {fileID: 1707841399449627470, guid: 33966b072a7a43f46b3bf5251c5154cf, type: 3}
+      propertyPath: m_Pitch
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707841399449627470, guid: 33966b072a7a43f46b3bf5251c5154cf, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707841399449627470, guid: 33966b072a7a43f46b3bf5251c5154cf, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 977e204e99a085f429bbc00eb1a3c619, type: 3}
+    - target: {fileID: 1707841399449627470, guid: 33966b072a7a43f46b3bf5251c5154cf, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 977e204e99a085f429bbc00eb1a3c619, type: 3}
     - target: {fileID: 2748349447245729970, guid: 33966b072a7a43f46b3bf5251c5154cf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.4799986
+      value: 10.853336
       objectReference: {fileID: 0}
     - target: {fileID: 2748349447245729970, guid: 33966b072a7a43f46b3bf5251c5154cf, type: 3}
       propertyPath: m_LocalPosition.y

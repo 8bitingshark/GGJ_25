@@ -16,6 +16,7 @@ public class ScoringBubble : MonoBehaviour
     private Coroutine coroutine;
     [SerializeField] private Canvas canvas;
     float timer = 0;
+    bool flag = false;
     
 
     [SerializeField] private State state = State.None;
@@ -55,6 +56,13 @@ public class ScoringBubble : MonoBehaviour
     public void SetState(State stateTmp)
     {
         //add audio here of bubbles
+        if (!flag)
+        {
+            gameObject.GetComponent<AudioSource>().enabled = true;
+            gameObject.GetComponent<AudioSource>().Play();
+            flag = true;
+        }
+        
         if(coroutine == null)
             coroutine = StartCoroutine(setTimerDestroy());
         switch (stateTmp)
