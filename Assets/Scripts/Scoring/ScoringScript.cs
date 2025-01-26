@@ -13,9 +13,10 @@ namespace Scoring
         public string giocatore = "";
         [SerializeField] public Text uiText;
         [SerializeField] public Text winningText;
+
         private void Start()
         {
-            uiText.text =  score.ToString();
+            uiText.text = score.ToString();
         }
 
         public void UpdatePoints(int scoreNow)
@@ -26,5 +27,7 @@ namespace Scoring
                 winningText.GetComponent<WinningScreen>().EndGame(giocatore);
             }
         }
+
+
     }
 }
