@@ -46,14 +46,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20c82d28e1a6d24880158005dda462c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bubblePrefab: {fileID: 4044179975396757848, guid: c379676cdcde5ec408f8fbed493e8a25, type: 3}
+  bubblePrefab: {fileID: 654876117854413971, guid: 33966b072a7a43f46b3bf5251c5154cf, type: 3}
   startPosition: {fileID: 3403487311748794746}
   endPosition: {fileID: 5197176566059878698}
-  spawnInterval: 2.5
+  spawnInterval: 4
   startVector: {x: 0, y: 0}
   endVector: {x: 0, y: 0}
   VectorPositionBubbles: []
-  cellsAmount: 10
+  cellsAmount: 12
+  gameObjectIntPairs:
+  - gameObject: {fileID: 654876117854413971, guid: 33966b072a7a43f46b3bf5251c5154cf, type: 3}
+    probability: 50
+  - gameObject: {fileID: 8537201645327355799, guid: 737803330372cb54a856a53a8ca4eb29, type: 3}
+    probability: 30
+  - gameObject: {fileID: 1385407782558926587, guid: c02b482b8f7ee3246ac7deac20fd80f4, type: 3}
+    probability: 5
+  - gameObject: {fileID: 6772791813444688649, guid: 54dd91fc5ad92504f92f722050626c4a, type: 3}
+    probability: 5
+  - gameObject: {fileID: 8502349738968989231, guid: dc41fbc7f5b79264a980d12b9a23bdd1, type: 3}
+    probability: 10
 --- !u!1 &3403487311748794746
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 3403487311748794746}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.36, y: 0, z: 0}
+  m_LocalPosition: {x: -12.98, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -110,7 +121,7 @@ Transform:
   m_GameObject: {fileID: 5197176566059878698}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.25, y: 0, z: 0}
+  m_LocalPosition: {x: 13.02, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
