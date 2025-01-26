@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class ScoringBubble : MonoBehaviour
@@ -8,6 +10,8 @@ public class ScoringBubble : MonoBehaviour
     [SerializeField] private Color colorPlayer1;
     [SerializeField] private Color colorPlayer2;
     [SerializeField] private Color neutralColor;
+    [SerializeField] private GameObject pointManager;
+    private Coroutine coroutine;
     
 
     [SerializeField] private State state = State.None;
@@ -17,6 +21,11 @@ public class ScoringBubble : MonoBehaviour
         Player1,
         Player2,
         None,
+    }
+
+    private void Start()
+    {
+        pointManager = GameObject.Find("PointManager");
     }
 
     public State getState() // sta roba la usiamo per contare i punti
@@ -39,6 +48,12 @@ public class ScoringBubble : MonoBehaviour
 
     public void SetState(State stateTmp)
     {
+        // if (coroutine != null)
+        // {
+        //     StopCoroutine(coroutine);
+        // }
+        if(coroutine == null)
+            coroutine = StartCoroutine(setTimerDestroy());
         switch (stateTmp)
         {
             case State.Player1:
@@ -58,4 +73,11 @@ public class ScoringBubble : MonoBehaviour
 
         }
     }
+
+    private IEnumerator setTimerDestroy()
+    {
+        yield return new WaitForSeconds(4f);
+        pointManager.GetComponent<DestroyScript>().assignPoint(gameObject);
+    }
+    
 }

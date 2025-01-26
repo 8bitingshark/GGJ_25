@@ -245,7 +245,7 @@ MonoBehaviour:
   ScoringBubble: {fileID: 5337049231120767367}
   whatToTrigger:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 832
 --- !u!114 &5337049231120767367 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3854426013651890819, guid: 33966b072a7a43f46b3bf5251c5154cf, type: 3}

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2748349447245729970}
+  - component: {fileID: 6380995707594097859}
   m_Layer: 6
   m_Name: BubbleRoot
   m_TagString: Untagged
@@ -33,6 +34,29 @@ Transform:
   - {fileID: 8934037135807135422}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6380995707594097859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654876117854413971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39616b315033eff44b366480304bbe9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsPlayer1:
+    serializedVersion: 2
+    m_Bits: 256
+  whatIsPlayer2:
+    serializedVersion: 2
+    m_Bits: 512
+  colorPlayer1: {r: 1, g: 0, b: 0, a: 1}
+  colorPlayer2: {r: 0, g: 0.16663885, b: 1, a: 1}
+  neutralColor: {r: 1, g: 1, b: 1, a: 1}
+  pointManager: {fileID: 3218615941845258322, guid: 689e0a440d1cfcd4cb4397a811d1be5e, type: 3}
+  state: 2
 --- !u!1 &6035071049425936876
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +266,7 @@ MonoBehaviour:
   colorPlayer1: {r: 1, g: 0, b: 0, a: 1}
   colorPlayer2: {r: 0, g: 0.16663885, b: 1, a: 1}
   neutralColor: {r: 1, g: 1, b: 1, a: 1}
+  pointManager: {fileID: 0}
   state: 2
 --- !u!68 &8145832777812730348
 EdgeCollider2D:
@@ -250,7 +275,7 @@ EdgeCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6035071049425936876}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -277,7 +302,7 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.61}
+  m_Offset: {x: 0, y: 0.68}
   m_EdgeRadius: 0
   m_Points:
   - {x: -0.4, y: 0}
@@ -321,7 +346,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.59
+  m_Radius: 0.57
 --- !u!1 &8403958452423922772
 GameObject:
   m_ObjectHideFlags: 0

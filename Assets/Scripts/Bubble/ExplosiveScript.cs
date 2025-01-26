@@ -26,7 +26,6 @@ public class ExplosiveScript : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(ScoringBubble.getState());
         if (ScoringBubble.getState() != ScoringBubble.State.None && !flagCheckExplosion)
         {
             flagCheckExplosion = true;
@@ -39,12 +38,26 @@ public class ExplosiveScript : MonoBehaviour
         Debug.Log("TriggerActivate");
         ExplosiveTrigger.enabled = true;
         SpriteExplosion.enabled = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         
         for (int i = 0; i < colliders2D.Count; i++)
         {
-            if(colliders2D[i] != null)
-                colliders2D[i].GetComponent<ScoringBubble>().SetState(ScoringBubble.getState());
+            if (colliders2D[i] != null)
+            {
+                float forceAmount = 0;
+                if (colliders2D[i].GetComponent<ScoringBubble>() != null)
+                {
+                    colliders2D[i].GetComponent<ScoringBubble>().SetState(ScoringBubble.getState());
+                    forceAmount = 1f;
+                }
+                else
+                {
+                    forceAmount = 45f;
+                }
+                    
+                colliders2D[i].GetComponent<Rigidbody2D>().AddForce(-(gameObject.transform.position - colliders2D[i].gameObject.transform.position) * forceAmount, ForceMode2D.Impulse);
+            }
+                
         }
         
         Destroy(gameObject);

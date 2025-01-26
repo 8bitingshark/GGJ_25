@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BubbleSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject bubblePrefab;
+    [SerializeField] private GameObject bubbleNormalPrefab;
+    [SerializeField] private GameObject bubbleExplosivePrefab;
     [SerializeField] private GameObject startPosition;
     [SerializeField] private GameObject endPosition;
     [SerializeField] private float spawnInterval = 2.5f;
@@ -59,7 +60,7 @@ public class BubbleSpawner : MonoBehaviour
             {
                 if (i % 2 == 0)
                 {
-                    GameObject bubble = Instantiate(bubblePrefab);
+                    GameObject bubble = Instantiate(bubbleNormalPrefab);
                     bubble.transform.position = VectorPositionBubbles[i];
                 }
             }
@@ -67,7 +68,7 @@ public class BubbleSpawner : MonoBehaviour
             {
                 if (i % 2 != 0)
                 {
-                    GameObject bubble = Instantiate(bubblePrefab);
+                    GameObject bubble = Instantiate(bubbleExplosivePrefab);
                     bubble.transform.position = VectorPositionBubbles[i];
                 }
             }
