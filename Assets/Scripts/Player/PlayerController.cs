@@ -12,6 +12,7 @@ namespace Player
         private Rigidbody2D _rb;
         [Header("Movement Params")]
         private Vector2 _inputHorizontalDirection;
+        private Vector2 _lastMovementDirection;
         private float _movementControlMultiplier;
         private float _horizontalVelocity;
         private float _movementAcceleration;
@@ -22,8 +23,7 @@ namespace Player
         private float _currentAirControlMultiplier;
         private float _fallGravityMultiplier;
         private bool _isGrounded;
-        [SerializeField] private LayerMask groundLayer;
-        
+        [SerializeField] private LayerMask jumpLayer;
         private bool _canJumpAddAcceleration;
         private bool _canChangeJumpForce;
         private float _currentJumpPressTime;
@@ -33,6 +33,12 @@ namespace Player
         private float _currentJumpForce;
         [Header("Terrain check")]
         private float _groundCheckDistance;
+        [Header("Wall check")]
+        private bool _isTouchingWall;
+        private float _wallCheckDistance;
+        private float _wallCheckHeight;
+        private float _boxCastOffsetCenterY;
+        [SerializeField] private LayerMask groundLayer;
         
         [Header("Kick params")]
         private bool _isAbleToKick;
@@ -67,6 +73,7 @@ namespace Player
         private void InitializePlayerData()
         {
             // set the parameters
+            _lastMovementDirection = Vector2.right;
             _coyoteTime = playerDataConfig.coyoteTime;
             _currentCoyoteTime = _coyoteTime;
             _movementControlMultiplier = 1.0f;
@@ -85,6 +92,11 @@ namespace Player
             _maxJumpHoldTime = playerDataConfig.maxJumpHoldTime;
             _minJumpForce = playerDataConfig.minJumpForce;
             _maxJumpForce = playerDataConfig.maxJumpForce;
+            
+            _isTouchingWall = false;
+            _wallCheckDistance = playerDataConfig.wallCheckDistance;
+            _wallCheckHeight = playerDataConfig.wallCheckHeight;
+            _boxCastOffsetCenterY = playerDataConfig.boxCastOffsetCenterY;
         }
         
 
@@ -99,6 +111,7 @@ namespace Player
 
         private void FixedUpdate()
         {
+            CheckWallContact();
             Move();
             AddFallGravity();
             if(_canChangeJumpForce) ApplyJumpForce();
@@ -110,11 +123,24 @@ namespace Player
 
         private void Move()
         {
-            _inputHorizontalDirection = playerInputs.GetMovementInput();
-            //apply forces and acceleration?
-            
-            _movementControlMultiplier = _isGrounded ? 1.0f : playerDataConfig.airControlMultiplier;
-            _horizontalVelocity = _inputHorizontalDirection.x * _movementAcceleration * _movementControlMultiplier;
+            _inputHorizontalDirection = playerInputs.GetMovementInputNormalized();
+
+            if (_inputHorizontalDirection != Vector2.zero)
+            {
+                _lastMovementDirection = _inputHorizontalDirection;
+            }
+
+            // avoid being stuck against a wall
+            if (!_isGrounded && _isTouchingWall)
+            {
+                _horizontalVelocity = 0.0f;
+            }
+            else
+            {
+                _movementControlMultiplier = _isGrounded ? 1.0f : playerDataConfig.airControlMultiplier;
+                _horizontalVelocity = _inputHorizontalDirection.x * _movementAcceleration * _movementControlMultiplier;
+            }
+
             _rb.linearVelocity = new Vector2(_horizontalVelocity, _rb.linearVelocity.y); //possibility to accelerate gradually?
         }
 
@@ -123,6 +149,19 @@ namespace Player
             float clampedX = Mathf.Clamp(_rb.linearVelocity.x, -_movementMaxSpeedX, _movementMaxSpeedX);
             float clampedY = Mathf.Clamp(_rb.linearVelocity.y, -_movementMaxSpeedY, _movementMaxSpeedY);
             _rb.linearVelocity = new Vector2(clampedX, clampedY);
+        }
+        
+        private void CheckWallContact()
+        {
+            Vector2 direction = new Vector2(_lastMovementDirection.x, 0);
+            Vector2 boxSize = new Vector2(_wallCheckDistance, _wallCheckHeight);
+            
+            Vector2 boxCenter = (Vector2)transform.position + new Vector2(0, _boxCastOffsetCenterY);
+
+            // Esegui il BoxCast
+            RaycastHit2D hit = Physics2D.BoxCast(boxCenter, boxSize, 0, direction, _wallCheckDistance, groundLayer);
+            
+            _isTouchingWall = hit.collider != null;
         }
 
         //*********************************Jump Management*********************************
@@ -188,13 +227,19 @@ namespace Player
         private void CheckGrounded()
         {
             //_isGrounded = Physics.CheckSphere(transform.position, groundCheckDistance);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.down, _groundCheckDistance, groundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.down, _groundCheckDistance, jumpLayer);
             _isGrounded = hit.collider != null;
         }
         
         //for debug
         private void OnDrawGizmosSelected()
         {
+            Vector2 direction = new Vector2(_lastMovementDirection.x, 0);
+            Vector2 boxSize = new Vector2(_wallCheckDistance, _wallCheckDistance);
+            Gizmos.color = _isTouchingWall ? Color.green : Color.red;
+            Vector2 boxCenter = (Vector2)transform.position + new Vector2(0, _boxCastOffsetCenterY);
+            Gizmos.DrawWireCube(boxCenter, boxSize);
+            
             Gizmos.color = Color.green;
             Gizmos.DrawLine(transform.position, transform.position + Vector3.down * _groundCheckDistance);
         }

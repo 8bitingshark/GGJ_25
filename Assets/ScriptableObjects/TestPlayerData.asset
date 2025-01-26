@@ -18,9 +18,12 @@ MonoBehaviour:
   jumpForce: 10
   coyoteTime: 0.2
   airControlMultiplier: 2.7
-  fallGravityMultiplier: 4.8
-  groundCheckDistance: 0.2
+  fallGravityMultiplier: 3.5
+  groundCheckDistance: 0.15
   maxJumpHoldTime: 0.8
   minJumpForce: 4
   maxJumpForce: 12
   canChangeJumpForce: 1
+  wallCheckDistance: 0.3
+  wallCheckHeight: 0.7
+  boxCastOffsetCenterY: 0.5
