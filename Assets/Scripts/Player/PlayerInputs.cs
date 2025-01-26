@@ -102,9 +102,9 @@ namespace Player
         
         //*********************************Input Events*********************************
         
-        public Vector2 GetMovementInput()
+        public Vector2 GetMovementInputNormalized()
         {
-            return _currentPlayerActionMap.FindAction("Move").ReadValue<Vector2>();
+            return _currentPlayerActionMap.FindAction("Move").ReadValue<Vector2>().normalized;
         }
 
         private void Jump_performed(InputAction.CallbackContext context)

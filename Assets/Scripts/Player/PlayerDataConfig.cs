@@ -19,5 +19,9 @@ namespace Player
         public float minJumpForce;
         public float maxJumpForce;
         public bool canChangeJumpForce;
+        //against wall params
+        public float wallCheckDistance;
+        public float wallCheckHeight;
+        public float boxCastOffsetCenterY;
     }
 }
