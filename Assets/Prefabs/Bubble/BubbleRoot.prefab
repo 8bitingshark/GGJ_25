@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 654876117854413971}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.3533354, y: -7.71, z: 0}
+  m_LocalPosition: {x: 8.686669, y: -7.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -55,7 +55,8 @@ MonoBehaviour:
   colorPlayer1: {r: 1, g: 0, b: 0, a: 1}
   colorPlayer2: {r: 0, g: 0.16663885, b: 1, a: 1}
   neutralColor: {r: 1, g: 1, b: 1, a: 1}
-  pointManager: {fileID: 3218615941845258322, guid: 689e0a440d1cfcd4cb4397a811d1be5e, type: 3}
+  pointManager: {fileID: 3218615941845258322, guid: 689e0a440d1cfcd4cb4397a811d1be5e,
+    type: 3}
   canvas: {fileID: 0}
   state: 2
 --- !u!1 &6035071049425936876
@@ -209,7 +210,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6042640686206806439, guid: 73a22464207b14549b80f289d1eb3129, type: 3}
+  m_Sprite: {fileID: -6042640686206806439, guid: 73a22464207b14549b80f289d1eb3129,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -268,7 +270,8 @@ MonoBehaviour:
   colorPlayer1: {r: 1, g: 0, b: 0, a: 1}
   colorPlayer2: {r: 0, g: 0.16663885, b: 1, a: 1}
   neutralColor: {r: 1, g: 1, b: 1, a: 1}
-  pointManager: {fileID: 3218615941845258322, guid: 689e0a440d1cfcd4cb4397a811d1be5e, type: 3}
+  pointManager: {fileID: 3218615941845258322, guid: 689e0a440d1cfcd4cb4397a811d1be5e,
+    type: 3}
   canvas: {fileID: 0}
   state: 2
 --- !u!68 &8145832777812730348
