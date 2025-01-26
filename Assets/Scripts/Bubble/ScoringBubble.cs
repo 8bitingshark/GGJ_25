@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoringBubble : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class ScoringBubble : MonoBehaviour
     [SerializeField] private Color neutralColor;
     [SerializeField] private GameObject pointManager;
     private Coroutine coroutine;
+    [SerializeField] private Canvas canvas;
+    float timer = 0;
     
 
     [SerializeField] private State state = State.None;
@@ -22,6 +26,8 @@ public class ScoringBubble : MonoBehaviour
         Player2,
         None,
     }
+
+    
 
     private void Start()
     {
@@ -48,10 +54,7 @@ public class ScoringBubble : MonoBehaviour
 
     public void SetState(State stateTmp)
     {
-        // if (coroutine != null)
-        // {
-        //     StopCoroutine(coroutine);
-        // }
+        //add audio here of bubbles
         if(coroutine == null)
             coroutine = StartCoroutine(setTimerDestroy());
         switch (stateTmp)
